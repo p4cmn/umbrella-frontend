@@ -19,5 +19,3 @@ Umbrella Frontend is the user interface built using React.js for managing inform
 - **Tracking Health Status**: Real-time monitoring of changes in the health status of users, facilitating prompt action in case of infections.
 
 - **Infection Statistics**: Aggregation of data on the spread of viruses among users and across locations, providing valuable insights for analysis and decision-making.
-
-## Getting Started
