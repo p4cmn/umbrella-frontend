@@ -24,6 +24,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import BACKEND_URL from "../../config.js";
 
 const TableCellHeader = styled(TableCell)({
   backgroundColor: '#800000',
@@ -121,7 +122,7 @@ const LocationConnector = () => {
 
   const fetchLocations = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/locations');
+      const response = await axios.get(`${BACKEND_URL}/locations`);
       setLocations(response.data);
     } catch (error) {
       console.error('Error fetching locations', error);
@@ -132,7 +133,7 @@ const LocationConnector = () => {
     const locationCreateDto = { name: newLocation.name };
 
     try {
-      const response = await axios.post('http://localhost:8080/locations', locationCreateDto);
+      const response = await axios.post(`${BACKEND_URL}/locations`, locationCreateDto);
       setLocations([...locations, response.data]);
       setNewLocation({ name: '' });
       setOpenCreateDialog(false);
@@ -145,7 +146,7 @@ const LocationConnector = () => {
     const locationUpdateDto = { id: editLocation.id, name: editLocation.name };
 
     try {
-      const response = await axios.put('http://localhost:8080/locations', locationUpdateDto);
+      const response = await axios.put(`${BACKEND_URL}/locations`, locationUpdateDto);
       setLocations(locations.map((loc) => (loc.id === editLocation.id ? response.data : loc)));
       setEditLocation({ id: '', name: '' });
       setOpenEditDialog(false);
@@ -156,7 +157,7 @@ const LocationConnector = () => {
 
   const deleteLocation = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/locations/${id}`);
+      await axios.delete(`${BACKEND_URL}/locations/${id}`);
       setLocations(locations.filter((loc) => loc.id !== id));
     } catch (error) {
       console.error('Error deleting location', error);

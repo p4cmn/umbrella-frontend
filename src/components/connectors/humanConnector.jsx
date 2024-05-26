@@ -23,6 +23,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import BACKEND_URL from "../../config.js";
 
 const healthStatuses = [
   'ASYMPTOMATIC',
@@ -134,7 +135,7 @@ const HumanConnector = () => {
 
   const fetchHumans = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/humans');
+      const response = await axios.get(`${BACKEND_URL}/humans`);
       setHumans(response.data);
     } catch (error) {
       console.error('Error fetching humans', error);
@@ -143,7 +144,7 @@ const HumanConnector = () => {
 
   const fetchLocations = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/locations');
+      const response = await axios.get(`${BACKEND_URL}/locations`);
       setLocations(response.data);
     } catch (error) {
       console.error('Error fetching locations', error);
@@ -165,7 +166,7 @@ const HumanConnector = () => {
     const humanCreateDto = { name, healthStatus, locationId: parseInt(locationId) };
 
     try {
-      const response = await axios.post('http://localhost:8080/humans', humanCreateDto);
+      const response = await axios.post( `${BACKEND_URL}/humans`, humanCreateDto);
       setHumans([...humans, response.data]);
       setNewHuman({ name: '', healthStatus: '', locationId: '' });
       setOpenCreateDialog(false);
@@ -179,7 +180,7 @@ const HumanConnector = () => {
     const humanUpdateDto = { id, name, healthStatus, locationId: parseInt(locationId) };
 
     try {
-      const response = await axios.put('http://localhost:8080/humans', humanUpdateDto);
+      const response = await axios.put(`${BACKEND_URL}/humans`, humanUpdateDto);
       setHumans(humans.map((hum) => (hum.id === id ? response.data : hum)));
       setEditHuman({ id: '', name: '', healthStatus: '', locationId: '' });
       setOpenEditDialog(false);
@@ -190,7 +191,7 @@ const HumanConnector = () => {
 
   const deleteHuman = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/humans/${id}`);
+      await axios.delete(`${BACKEND_URL}/humans/${id}`);
       setHumans(humans.filter((human) => human.id !== id));
     } catch (error) {
       console.error('Error deleting human', error);

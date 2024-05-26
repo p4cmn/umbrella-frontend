@@ -26,6 +26,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import BACKEND_URL from "../../config.js";
 
 const TableCellHeader = styled(TableCell)({
   backgroundColor: '#800000',
@@ -146,7 +147,7 @@ const Viruses = () => {
 
   const fetchViruses = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/viruses');
+      const response = await axios.get(`${BACKEND_URL}/viruses`);
       setViruses(response.data);
     } catch (error) {
       console.error('Error fetching viruses', error);
@@ -155,7 +156,7 @@ const Viruses = () => {
 
   const fetchHumans = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/humans');
+      const response = await axios.get(`${BACKEND_URL}/humans`);
       setHumans(response.data);
     } catch (error) {
       console.error('Error fetching humans', error);
@@ -166,7 +167,7 @@ const Viruses = () => {
     const { name, infectiousnessPercentage } = newVirus;
     const virusCreateDto = { name, infectiousnessPercentage: parseInt(infectiousnessPercentage) };
     try {
-      const response = await axios.post('http://localhost:8080/viruses', virusCreateDto);
+      const response = await axios.post(`${BACKEND_URL}/viruses`, virusCreateDto);
       setViruses([...viruses, response.data]);
       setNewVirus({ name: '', infectiousnessPercentage: '' });
       setOpenCreateDialog(false);
@@ -180,7 +181,7 @@ const Viruses = () => {
     const virusUpdateDto = { id, name, infectiousnessPercentage: parseInt(infectiousnessPercentage) };
 
     try {
-      const response = await axios.put('http://localhost:8080/viruses', virusUpdateDto);
+      const response = await axios.put(`${BACKEND_URL}/viruses`, virusUpdateDto);
       setViruses(viruses.map((virus) => (virus.id === id ? response.data : virus)));
       setEditVirus({ id: '', name: '', infectiousnessPercentage: '' });
       setOpenEditDialog(false);
@@ -191,7 +192,7 @@ const Viruses = () => {
 
   const deleteVirus = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/viruses/${id}`);
+      await axios.delete(`${BACKEND_URL}/viruses/${id}`);
       setViruses(viruses.filter((virus) => virus.id !== id));
     } catch (error) {
       console.error('Error deleting virus', error);
@@ -211,7 +212,7 @@ const Viruses = () => {
     const virusInfectDto = { virusId: infectData.virusId, humanId: infectData.humanId };
 
     try {
-      await axios.post('http://localhost:8080/viruses/infect', virusInfectDto);
+      await axios.post(`${BACKEND_URL}/viruses/infect`, virusInfectDto);
       setOpenInfectDialog(false);
       setInfectData({ virusId: '', humanId: '' });
       fetchViruses(); // Обновляем список вирусов после инфицирования
